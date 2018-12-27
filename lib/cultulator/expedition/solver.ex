@@ -1,5 +1,5 @@
 defmodule Cultulator.Expedition.Solver do
-  alias Cultulator.Expedition.{Hazard, Vault, Data}
+  alias Cultulator.Expedition.Vault
 
   defmodule SimState do
     @enforce_keys [:failed, :cursed]

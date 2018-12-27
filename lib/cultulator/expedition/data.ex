@@ -75,7 +75,7 @@ defmodule Cultulator.Expedition.Data do
     }
   }
 
-  @expeditions [
+  @vaults [
     #
     # Level 2: In the Capital
     #
@@ -458,5 +458,5 @@ defmodule Cultulator.Expedition.Data do
     }
   ]
 
-  def expeditions, do: @expeditions
+  def vaults, do: @vaults
 end
