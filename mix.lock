@@ -1,3 +1,4 @@
 %{
   "briefly": {:hex, :briefly, "0.3.0", "16e6b76d2070ebc9cbd025fa85cf5dbaf52368c4bd896fb482b5a6b95a540c2f", [:mix], [], "hexpm"},
+  "eml": {:git, "https://github.com/zambal/eml.git", "0c68a4bb88810d6b6a2af3d225b7fd57702df9c9", [tag: "0c68a4bb88810d"]},
 }

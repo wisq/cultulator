@@ -23,7 +23,8 @@ defmodule Cultulator.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:briefly, "~> 0.3"}
+      {:briefly, "~> 0.3"},
+      {:eml, git: "https://github.com/zambal/eml.git", tag: "0c68a4bb88810d"}
     ]
   end
 end
