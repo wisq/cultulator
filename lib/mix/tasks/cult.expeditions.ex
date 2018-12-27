@@ -50,7 +50,7 @@ defmodule Mix.Tasks.Cult.Expeditions do
   end
 
   defp write_file(target, contents) do
-    File.rm!(target)
+    rm!(target)
     File.write!(target, contents)
     IO.puts("* Wrote #{byte_size(contents)} bytes to #{relative(target)}")
   end
@@ -61,7 +61,7 @@ defmodule Mix.Tasks.Cult.Expeditions do
 
     case File.stat(target) do
       {:error, :enoent} ->
-        File.rm!(target)
+        rm!(target)
         File.copy!(source, target)
         IO.puts("* Copied: #{source} -> #{relative(target)}")
 
@@ -69,12 +69,20 @@ defmodule Mix.Tasks.Cult.Expeditions do
         IO.puts("* Keeping link: #{source} -> #{relative(target)}")
 
       {:ok, %File.Stat{type: :regular}} ->
-        File.rm!(target)
+        rm!(target)
         File.copy!(source, target)
         IO.puts("* Copied: #{source} -> #{relative(target)}")
 
       {:ok, _} ->
         raise "Target #{relative(target)} is not a file or a link to #{source}"
+    end
+  end
+
+  defp rm!(file) do
+    case File.rm(file) do
+      :ok -> :ok
+      {:error, :enoent} -> :ok
+      {:error, err} -> raise "Failed to delete #{file}: #{inspect(err)}"
     end
   end
 end
