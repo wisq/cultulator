@@ -86,8 +86,6 @@ defmodule Cultulator.Expedition.Combiner do
         # Take away lists that contain the most popular element:
         {popular, unpopular} = Enum.split_with(lists, &(most_popular in &1))
 
-        r = Enum.random(1000..9999)
-
         # For the popular ones, delete the most popular element and try merging the remainders.
         popular =
           popular
@@ -98,17 +96,29 @@ defmodule Cultulator.Expedition.Combiner do
         # For the unpopular ones, just try this function again.
         unpopular = merge_options(unpopular)
 
-        # Return the combined result.
-        popular ++ unpopular
+        # See if there's a common suffix so we can merge further.
+        check_common_suffix(popular ++ unpopular)
+    end
+  end
+
+  defp check_common_suffix([list]), do: [list]
+
+  defp check_common_suffix(lists) do
+    tails =
+      Enum.map(lists, fn [_ | t] -> t end)
+      |> Enum.uniq()
+
+    case tails do
+      [common_tail] ->
+        heads = Enum.map(lists, &List.first/1)
+        [[%Choice{list: heads} | common_tail]]
+
+      _ ->
+        lists
     end
   end
 
   defp count_in_combos(item, lists) do
     Enum.count(lists, &(item in &1))
-  end
-
-  defp earliest_match(list, popular) do
-    popular
-    |> Enum.find_index(&Enum.member?(list, &1))
   end
 end

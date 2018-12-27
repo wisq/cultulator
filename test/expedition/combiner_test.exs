@@ -81,11 +81,11 @@ defmodule Cultulator.Expedition.CombinerTest do
              %Combo{for_success: [:winter, :lantern, :grail], for_no_curse: []}
            ]) == [
              %Combo{
-               for_success: [:grail, :forge, %Choice{list: [:knock, :lantern]}],
-               for_no_curse: []
-             },
-             %Combo{
-               for_success: [:grail, :winter, %Choice{list: [:knock, :lantern]}],
+               for_success: [
+                 :grail,
+                 %Choice{list: [:forge, :winter]},
+                 %Choice{list: [:knock, :lantern]}
+               ],
                for_no_curse: []
              }
            ]
