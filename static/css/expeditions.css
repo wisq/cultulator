@@ -1,22 +1,25 @@
 body {
 	background-color: #08292e;
-	color: white;
+	color: #e2e2e2;
 	font-size: 16px;
 	font-family: sans-serif;
 }
 
 table {
 	border-collapse: collapse;
+	margin: 1em auto;
 }
 
 th, td {
-	padding: 0.2em 0.4em;
+	padding: 0.2em 0.6em;
 	border: 1px solid #a2a9b1;
 }
 
 div {
 	margin: 0.5em 0;
 }
+
+td.level, td.repeatable { text-align: center; }
 
 .aspect.a_lantern { color: #ffe300; }
 .aspect.a_forge   { color: #ff8e3e; }
