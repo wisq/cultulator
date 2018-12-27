@@ -22,6 +22,10 @@ defmodule Cultulator.Expedition.Combiner do
     |> Enum.flat_map(fn {_fnc, cs} -> combine_success(cs) end)
   end
 
+  defp sort_combo_fields(%Combo{for_success: fs, for_no_curse: fnc} = c) do
+    %Combo{c | for_success: Enum.sort(fs), for_no_curse: Enum.sort(fnc)}
+  end
+
   defp combine_no_curse(combos) do
     combos
     |> Enum.group_by(&remove_no_curse/1)
@@ -34,6 +38,8 @@ defmodule Cultulator.Expedition.Combiner do
     end)
   end
 
+  defp remove_no_curse(%Combo{} = c), do: %Combo{c | for_no_curse: nil}
+
   defp combine_success(combos) do
     template = List.first(combos)
 
@@ -45,17 +51,7 @@ defmodule Cultulator.Expedition.Combiner do
     end)
   end
 
-  defp count_in_combos(item, lists) do
-    Enum.count(lists, &(item in &1))
-  end
-
-  defp sort_combo_fields(%Combo{for_success: fs, for_no_curse: fnc} = c) do
-    %Combo{c | for_success: Enum.sort(fs), for_no_curse: Enum.sort(fnc)}
-  end
-
-  defp remove_no_curse(%Combo{} = c), do: %Combo{c | for_no_curse: nil}
-
-  def merge_options(lists) do
+  defp merge_options(lists) do
     cond do
       # Just one list; return it.
       length(lists) == 1 ->
@@ -94,6 +90,10 @@ defmodule Cultulator.Expedition.Combiner do
           |> Enum.map(fn zipped -> [first | zipped] end)
         end)
     end
+  end
+
+  defp count_in_combos(item, lists) do
+    Enum.count(lists, &(item in &1))
   end
 
   defp earliest_match(list, popular) do
