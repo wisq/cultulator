@@ -1,6 +1,4 @@
 defmodule Cultulator.Mix do
-  use Mix.Task
-
   def build_path(path) do
     Path.join([Mix.Project.build_path(), "pages", path])
   end
