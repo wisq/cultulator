@@ -36,9 +36,23 @@ defmodule Mix.Tasks.Cult.Expeditions do
     Mix.raise("cult.expeditions does not accept arguments")
   end
 
+  defp build_path(path) do
+    Path.join([Mix.Project.build_path(), "pages", path])
+  end
+
+  defp relative(path) do
+    Path.relative_to_cwd(path)
+  end
+
   defp generate_page do
-    copy_static("static/css/expeditions.css", "pages/css/expeditions.css")
-    File.write!("pages/expeditions.html", Generator.html_page())
+    copy_static("static/css/expeditions.css", build_path("css/expeditions.css"))
+    write_file(build_path("expeditions.html"), Generator.html_page())
+  end
+
+  defp write_file(target, contents) do
+    File.rm!(target)
+    File.write!(target, contents)
+    IO.puts("* Wrote #{byte_size(contents)} bytes to #{relative(target)}")
   end
 
   defp copy_static(source, target) do
@@ -46,9 +60,21 @@ defmodule Mix.Tasks.Cult.Expeditions do
     src_stat = File.stat!(source)
 
     case File.stat(target) do
-      {:error, :enoent} -> File.copy!(source, target)
-      {:ok, ^src_stat} -> :ok
-      _ -> raise "Target #{target} exists and is not a link to #{source}"
+      {:error, :enoent} ->
+        File.rm!(target)
+        File.copy!(source, target)
+        IO.puts("* Copied: #{source} -> #{relative(target)}")
+
+      {:ok, ^src_stat} ->
+        IO.puts("* Keeping link: #{source} -> #{relative(target)}")
+
+      {:ok, %File.Stat{type: :regular}} ->
+        File.rm!(target)
+        File.copy!(source, target)
+        IO.puts("* Copied: #{source} -> #{relative(target)}")
+
+      {:ok, _} ->
+        raise "Target #{relative(target)} is not a file or a link to #{source}"
     end
   end
 end
