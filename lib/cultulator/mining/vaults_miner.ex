@@ -1,6 +1,6 @@
 defmodule Cultulator.Mining.VaultsMiner do
   alias Cultulator.Expedition.Vault
-  alias Cultulator.Mining.GameData
+  alias Cultulator.Mining.{GameData, Util}
 
   def extract do
     explore_data = GameData.explore_vaults()
@@ -9,7 +9,7 @@ defmodule Cultulator.Mining.VaultsMiner do
     GameData.vaults()
     |> Enum.map(fn {id, data} ->
       %Vault{
-        name: data.label,
+        name: Util.shorten(data.label),
         card_id: id,
         history_level: find_level(id, v_levels),
         repeatable: String.ends_with?(id, "default"),

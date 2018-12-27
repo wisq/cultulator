@@ -1,41 +1,49 @@
 defmodule Cultulator.Mining.ExpeditionsGenerator do
   alias Cultulator.Mining.{HazardsMiner, VaultsMiner}
 
-  def update_code(code) do
-    hazards = HazardsMiner.extract()
-    vaults = VaultsMiner.extract()
+  @common_header """
+  ###                                        ###
+  ### AUTOMATICALLY GENERATED.  DO NOT EDIT. ###
+  ###                                        ###
+  """
 
-    code
-    |> String.split(~r{\n\s*\n})
-    |> Enum.map(fn chunk ->
-      cond do
-        chunk =~ ~r/^\s*@hazards %{/ -> hazards_chunk(hazards)
-        chunk =~ ~r/^\s*@vaults \[/ -> vaults_chunk(vaults)
-        true -> chunk
-      end
-    end)
-    |> Enum.join("\n\n")
-    |> Code.format_string!()
-  end
-
-  def hazards_chunk(hazards) do
+  def generate_hazards(hazards \\ HazardsMiner.extract()) do
     [
+      @common_header,
+      "\n",
+      "defmodule Cultulator.Expedition.Data.Hazards do\n",
+      "alias Cultulator.Expedition.Hazard\n",
+      "\n",
       "@hazards %{\n",
       Enum.map(hazards, &dump_hazard/1)
       |> Enum.intersperse(",\n"),
-      "}"
+      "}\n",
+      "\n",
+      "def get(id), do: Map.fetch!(@hazards, id)\n",
+      "end"
     ]
     |> IO.iodata_to_binary()
+    |> Code.format_string!()
   end
 
-  def vaults_chunk(vaults) do
+  def generate_vaults(vaults \\ VaultsMiner.extract()) do
     [
+      @common_header,
+      "\n",
+      "defmodule Cultulator.Expedition.Data.Vaults do\n",
+      "alias Cultulator.Expedition.Vault\n",
+      "alias Cultulator.Expedition.Data.Hazards\n",
+      "\n",
       "@vaults [\n",
       Enum.map(vaults, &dump_vault/1)
       |> Enum.intersperse(",\n"),
-      "]"
+      "]\n",
+      "\n",
+      "def vaults, do: @vaults\n",
+      "end"
     ]
     |> IO.iodata_to_binary()
+    |> Code.format_string!()
   end
 
   @hazard_keys [:name, :card_id, :curse, :aspects]
@@ -55,7 +63,7 @@ defmodule Cultulator.Mining.ExpeditionsGenerator do
       dump_keys(vault, @vault_keys, %{repeatable: false}),
       ", hazards: [\n",
       Enum.map(vault.hazards, fn h ->
-        "Map.fetch!(@hazards, :#{h})"
+        "Hazards.get(:#{h})"
       end)
       |> Enum.intersperse(",\n"),
       "\n]\n}"

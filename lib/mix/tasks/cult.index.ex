@@ -40,6 +40,6 @@ defmodule Mix.Tasks.Cult.Index do
 
   defp generate_page do
     Mix.Task.run("cult.css")
-    write_file(build_path("index.html"), Generator.html_page())
+    Generator.html_page() |> write_file(build_path("index.html"))
   end
 end

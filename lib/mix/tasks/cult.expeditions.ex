@@ -15,6 +15,7 @@ defmodule Mix.Tasks.Cult.Expeditions do
     defp root do
       html do
         head do
+          meta(charset: "utf-8")
           title("Cultist Simulator Expeditions Reference Table")
           link(rel: :stylesheet, type: "text/css", href: "css/main.css")
           link(rel: :stylesheet, type: "text/css", href: "css/expeditions.css")
@@ -47,6 +48,6 @@ defmodule Mix.Tasks.Cult.Expeditions do
   defp generate_page do
     Mix.Task.run("cult.css")
     copy_static("static/css/expeditions.css", build_path("css/expeditions.css"))
-    write_file(build_path("expeditions.html"), Generator.html_page())
+    Generator.html_page() |> write_file(build_path("expeditions.html"))
   end
 end

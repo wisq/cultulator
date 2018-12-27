@@ -1,4 +1,6 @@
 defmodule Cultulator.Mix do
+  require Logger
+
   def build_path(path) do
     Path.join([Mix.Project.build_path(), "pages", path])
   end
@@ -7,10 +9,10 @@ defmodule Cultulator.Mix do
     Path.relative_to_cwd(path)
   end
 
-  def write_file(target, contents) do
+  def write_file(contents, target) do
     rm!(target)
     File.write!(target, contents)
-    IO.puts("* Wrote #{byte_size(contents)} bytes to #{relative(target)}")
+    Logger.info("Wrote #{byte_size(contents)} bytes to #{relative(target)}")
   end
 
   def copy_static(source, target) do
@@ -21,15 +23,15 @@ defmodule Cultulator.Mix do
       {:error, :enoent} ->
         rm!(target)
         File.copy!(source, target)
-        IO.puts("* Copied: #{source} -> #{relative(target)}")
+        Logger.info("Copied: #{source} -> #{relative(target)}")
 
       {:ok, ^src_stat} ->
-        IO.puts("* Keeping link: #{source} -> #{relative(target)}")
+        Logger.info("Keeping link: #{source} -> #{relative(target)}")
 
       {:ok, %File.Stat{type: :regular}} ->
         rm!(target)
         File.copy!(source, target)
-        IO.puts("* Copied: #{source} -> #{relative(target)}")
+        Logger.info("Copied: #{source} -> #{relative(target)}")
 
       {:ok, _} ->
         raise "Target #{relative(target)} is not a file or a link to #{source}"
