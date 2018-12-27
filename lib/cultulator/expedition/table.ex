@@ -33,7 +33,7 @@ defmodule Cultulator.Expedition.Table do
   defp vault_row(vault) do
     tr class: :vault do
       td([class: :name], wikilink(vault.name, vault.wiki_name || vault.name))
-      td([class: :level], vault.history_level)
+      td([class: :level], vault.history_level || tooltip("S", "Special"))
       td([class: :repeatable], render_boolean(vault.repeatable))
 
       td class: :hazards do

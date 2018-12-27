@@ -419,16 +419,6 @@ defmodule Cultulator.Expedition.Data do
       ]
     },
     %Vault{
-      name: "Hebe Stanton",
-      wiki_name: "The 'Hebe Stanton'",
-      history_level: 14,
-      hazards: [
-        Map.fetch!(@hazards, :western_sea),
-        Map.fetch!(@hazards, :watchers),
-        Map.fetch!(@hazards, :warded_door)
-      ]
-    },
-    %Vault{
       name: "Raven Isle",
       history_level: 14,
       hazards: [
@@ -465,6 +455,20 @@ defmodule Cultulator.Expedition.Data do
         Map.fetch!(@hazards, :western_sea),
         Map.fetch!(@hazards, :fifth_eye_curse),
         Map.fetch!(@hazards, :long)
+      ]
+    },
+
+    #
+    # Special: Has a percent chance to be found from most levels.
+    #
+    %Vault{
+      name: "'Hebe Stanton'",
+      wiki_name: "The 'Hebe Stanton'",
+      history_level: nil,
+      hazards: [
+        Map.fetch!(@hazards, :western_sea),
+        Map.fetch!(@hazards, :watchers),
+        Map.fetch!(@hazards, :warded_door)
       ]
     }
   ]
