@@ -45,7 +45,7 @@ defmodule Cultulator.Expedition.CombinerTest do
                for_no_curse: []
              },
              %Combo{
-               for_success: [:grail, :lantern, :knock],
+               for_success: [:grail, :knock, :lantern],
                for_no_curse: []
              }
            ]
@@ -69,6 +69,24 @@ defmodule Cultulator.Expedition.CombinerTest do
              %Combo{
                for_success: [:edge, :grail, %Choice{list: [:lantern, :moth]}],
                for_no_curse: [%Choice{list: [:forge, :heart]}]
+             }
+           ]
+  end
+
+  test "Tombs of the Shadowless Kings should combine properly" do
+    assert Combiner.combine([
+             %Combo{for_success: [:knock, :grail, :forge], for_no_curse: []},
+             %Combo{for_success: [:lantern, :grail, :forge], for_no_curse: []},
+             %Combo{for_success: [:winter, :knock, :grail], for_no_curse: []},
+             %Combo{for_success: [:winter, :lantern, :grail], for_no_curse: []}
+           ]) == [
+             %Combo{
+               for_success: [:grail, :forge, %Choice{list: [:knock, :lantern]}],
+               for_no_curse: []
+             },
+             %Combo{
+               for_success: [:grail, :winter, %Choice{list: [:knock, :lantern]}],
+               for_no_curse: []
              }
            ]
   end

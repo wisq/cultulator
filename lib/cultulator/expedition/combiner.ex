@@ -53,9 +53,17 @@ defmodule Cultulator.Expedition.Combiner do
 
   defp merge_options(lists) do
     cond do
+      # No lists: Return nothing.  This is to avoid the "all lists empty" condition.
+      lists == [] ->
+        []
+
       # Just one list; return it.
       length(lists) == 1 ->
         lists
+
+      # All lists are empty.  Return an empty list to cons onto.
+      Enum.all?(lists, &Enum.empty?/1) ->
+        [[]]
 
       # All lists are length 1.
       Enum.all?(lists, &(length(&1) == 1)) ->
@@ -69,26 +77,29 @@ defmodule Cultulator.Expedition.Combiner do
 
       # Lists are longer than 1.
       true ->
-        # Find the most popular elements:
+        # Find the most popular element:
         most_popular =
           List.flatten(lists)
           |> Enum.uniq()
-          |> Enum.sort_by(&{-count_in_combos(&1, lists), &1})
+          |> Enum.min_by(&{-count_in_combos(&1, lists), &1})
 
-        # Going from most to least popular,
-        lists
-        # ... find lists that match <item>,
-        |> Enum.group_by(&earliest_match(&1, most_popular))
-        # ... and make a new set of lists that are
-        #     <item> + zipped sub-choices.
-        |> Enum.flat_map(fn {index, matching} ->
-          first = Enum.at(most_popular, index)
+        # Take away lists that contain the most popular element:
+        {popular, unpopular} = Enum.split_with(lists, &(most_popular in &1))
 
-          matching
-          |> Enum.map(&List.delete(&1, first))
+        r = Enum.random(1000..9999)
+
+        # For the popular ones, delete the most popular element and try merging the remainders.
+        popular =
+          popular
+          |> Enum.map(&List.delete(&1, most_popular))
           |> merge_options()
-          |> Enum.map(fn zipped -> [first | zipped] end)
-        end)
+          |> Enum.map(fn l -> [most_popular | l] end)
+
+        # For the unpopular ones, just try this function again.
+        unpopular = merge_options(unpopular)
+
+        # Return the combined result.
+        popular ++ unpopular
     end
   end
 
