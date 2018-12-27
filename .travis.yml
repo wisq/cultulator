@@ -27,5 +27,6 @@ deploy:
   bucket: cult.wisq.net
   local-dir: _build/prod/pages
   acl: public_read
+  skip_cleanup: true
   on:
     repo: wisq/cultulator
