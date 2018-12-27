@@ -6,7 +6,7 @@ defmodule Cultulator.Mining.VaultsMiner do
     explore_data = GameData.explore_vaults()
     v_levels = extract_vault_levels()
 
-    GameData.vaults()
+    GameData.elements("vaults")
     |> Enum.map(fn {id, data} ->
       %Vault{
         name: Util.shorten(data.label),
@@ -37,7 +37,7 @@ defmodule Cultulator.Mining.VaultsMiner do
     v_decks = extract_vault_decks()
     f_levels = extract_history_fragment_levels()
 
-    GameData.explore_secret_histories()
+    GameData.recipes("explore_secrethistories")
     |> Enum.filter(fn {id, _} -> id =~ ~r{^explorefindvault_[a-z]$} end)
     |> Enum.flat_map(fn {_, data} ->
       [vdeck] = Map.keys(data.deckeffect)

@@ -5,7 +5,7 @@ defmodule Cultulator.Mining.HazardsMiner do
   def extract do
     obstacles = GameData.obstacles()
 
-    GameData.vault_locks()
+    GameData.elements("vault_locks")
     |> Enum.map(fn {id, lock} ->
       %Hazard{
         name: Util.shorten(lock.label),

@@ -24,8 +24,8 @@ defmodule Cultulator.Mining.GameData do
     |> Map.new(&{&1.id, &1})
   end
 
-  def explore_secret_histories do
-    parse_json_file("data/StreamingAssets/content/core/recipes/explore_secrethistories.json")
+  def recipes(name) do
+    parse_json_file("data/StreamingAssets/content/core/recipes/#{name}.json")
     |> Map.fetch!(:recipes)
     |> Map.new(&{&1.id, &1})
   end
@@ -47,18 +47,6 @@ defmodule Cultulator.Mining.GameData do
       data
       |> String.replace(~r/{epiphany:([a-z]+)}/, "{epiphany:\"\\1\"}")
     end)
-    |> Map.fetch!(:elements)
-    |> Map.new(&{&1.id, &1})
-  end
-
-  def vaults do
-    parse_json_file("data/StreamingAssets/content/core/elements/vaults.json")
-    |> Map.fetch!(:elements)
-    |> Map.new(&{&1.id, &1})
-  end
-
-  def vault_locks do
-    parse_json_file("data/StreamingAssets/content/core/elements/vault_locks.json")
     |> Map.fetch!(:elements)
     |> Map.new(&{&1.id, &1})
   end
