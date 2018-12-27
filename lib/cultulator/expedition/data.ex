@@ -109,6 +109,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Congregation of St Felix",
+      wiki_name: "The Congregation of St Felix",
       history_level: 2,
       hazards: [
         # From wiki, but unconfirmed.  Seems redundant with monks:
@@ -118,6 +119,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Forsaken Reach",
+      wiki_name: "The Forsaken Reach",
       repeatable: true,
       history_level: 2,
       hazards: [
@@ -222,7 +224,8 @@ defmodule Cultulator.Expedition.Data do
       ]
     },
     %Vault{
-      name: "Vandershaaf Collection",
+      name: "Vanderschaaf Collection",
+      wiki_name: "The Vanderschaaf Collection",
       history_level: 6,
       hazards: [
         Map.fetch!(@hazards, :warded_door),
@@ -231,6 +234,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Unnumbered Stones",
+      wiki_name: "The Unnumbered Stones",
       repeatable: true,
       history_level: 6,
       hazards: [
@@ -261,6 +265,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Kusnetsov Endowment",
+      wiki_name: "The Kusnetsov Endowment",
       history_level: 8,
       hazards: [
         Map.fetch!(@hazards, :treacherous_ground),
@@ -300,6 +305,7 @@ defmodule Cultulator.Expedition.Data do
     #
     %Vault{
       name: "Eye of Ikirmawi",
+      wiki_name: "The Eye of Ikirmawi",
       history_level: 10,
       hazards: [
         Map.fetch!(@hazards, :high_passes),
@@ -308,7 +314,7 @@ defmodule Cultulator.Expedition.Data do
       ]
     },
     %Vault{
-      name: "Hunter's Pits",
+      name: "Hunter's Pit",
       history_level: 10,
       hazards: [
         Map.fetch!(@hazards, :watchers),
@@ -318,6 +324,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Mausoleum of Wolves",
+      wiki_name: "The Mausoleum of Wolves",
       history_level: 10,
       hazards: [
         Map.fetch!(@hazards, :fretful_dead),
@@ -335,7 +342,7 @@ defmodule Cultulator.Expedition.Data do
       ]
     },
     %Vault{
-      name: "Tombs of Shadowless Kings",
+      name: "Tombs of the Shadowless Kings",
       repeatable: true,
       history_level: 10,
       hazards: [
@@ -369,6 +376,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Star-Shattered Fane",
+      wiki_name: "The Star-Shattered Fane",
       history_level: 12,
       hazards: [
         Map.fetch!(@hazards, :hidden_door),
@@ -378,6 +386,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Temple of Seven Coils",
+      wiki_name: "The Temple of Seven Coils",
       history_level: 12,
       hazards: [
         Map.fetch!(@hazards, :warded_door),
@@ -411,6 +420,7 @@ defmodule Cultulator.Expedition.Data do
     },
     %Vault{
       name: "Hebe Stanton",
+      wiki_name: "The 'Hebe Stanton'",
       history_level: 14,
       hazards: [
         Map.fetch!(@hazards, :western_sea),
@@ -437,7 +447,8 @@ defmodule Cultulator.Expedition.Data do
       ]
     },
     %Vault{
-      name: "Wreck of the Cristabel",
+      name: "Wreck of the Christabel",
+      wiki_name: "The Wreck of the Christabel",
       history_level: 14,
       hazards: [
         Map.fetch!(@hazards, :younger_sister),
