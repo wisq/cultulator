@@ -1,4 +1,23 @@
 defmodule Cultulator.Mining.ExpeditionsGenerator do
+  alias Cultulator.Mining.{HazardsMiner, VaultsMiner}
+
+  def update_code(code) do
+    hazards = HazardsMiner.extract()
+    vaults = VaultsMiner.extract()
+
+    code
+    |> String.split(~r{\n\s*\n})
+    |> Enum.map(fn chunk ->
+      cond do
+        chunk =~ ~r/^\s*@hazards %{/ -> hazards_chunk(hazards)
+        chunk =~ ~r/^\s*@vaults \[/ -> vaults_chunk(vaults)
+        true -> chunk
+      end
+    end)
+    |> Enum.join("\n\n")
+    |> Code.format_string!()
+  end
+
   def hazards_chunk(hazards) do
     [
       "@hazards %{\n",
@@ -7,7 +26,6 @@ defmodule Cultulator.Mining.ExpeditionsGenerator do
       "}"
     ]
     |> IO.iodata_to_binary()
-    |> Code.format_string!()
   end
 
   def vaults_chunk(vaults) do
@@ -18,7 +36,6 @@ defmodule Cultulator.Mining.ExpeditionsGenerator do
       "]"
     ]
     |> IO.iodata_to_binary()
-    |> Code.format_string!()
   end
 
   @hazard_keys [:name, :card_id, :curse, :aspects]
