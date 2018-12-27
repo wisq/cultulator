@@ -3,7 +3,6 @@ defmodule Cultulator.Expedition.Vault do
   defstruct(
     name: nil,
     card_id: nil,
-    wiki_name: nil,
     repeatable: false,
     history_level: nil,
     hazards: []

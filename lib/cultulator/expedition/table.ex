@@ -32,7 +32,7 @@ defmodule Cultulator.Expedition.Table do
 
   defp vault_row(vault) do
     tr class: :vault do
-      td([class: :name], wikilink(vault.name, vault.wiki_name || vault.name))
+      td([class: :name], db_link(vault.name, vault.card_id))
       td([class: :level], vault.history_level || tooltip("S", "Special"))
       td([class: :repeatable], render_boolean(vault.repeatable))
 
@@ -124,19 +124,14 @@ defmodule Cultulator.Expedition.Table do
     end
   end
 
-  defp wikilink(text, page_name) do
-    a([href: wiki_url(page_name), class: "wiki"], text)
+  defp db_link(text, id) do
+    a([href: db_url(id), class: "dblink"], text)
   end
 
-  @wiki_uri URI.parse("https://cultistsimulator.gamepedia.com/")
+  @db_uri URI.parse("https://www.frangiclave.net/")
 
-  defp wiki_url(text) do
-    encoded =
-      text
-      |> String.replace(".", "")
-      |> URI.encode()
-
-    %URI{@wiki_uri | path: "/#{encoded}"}
+  defp db_url(id) do
+    %URI{@db_uri | path: "/element/#{id}/"}
     |> URI.to_string()
   end
 end
