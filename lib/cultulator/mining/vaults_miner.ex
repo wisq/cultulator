@@ -23,7 +23,7 @@ defmodule Cultulator.Mining.VaultsMiner do
     {l, r, i}
   end
 
-  defp find_level("vaultfloating" <> _, levels_data), do: nil
+  defp find_level("vaultfloating" <> _, _levels_data), do: nil
   defp find_level(id, levels_data), do: Map.fetch!(levels_data, id)
 
   defp find_hazards(id, explore_data) do
