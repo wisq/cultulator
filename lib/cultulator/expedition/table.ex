@@ -63,7 +63,7 @@ defmodule Cultulator.Expedition.Table do
     type = if hazard.curse, do: :curse, else: :blocker
 
     div class: "hazard #{type}" do
-      span([class: :name], hazard.name)
+      span([class: :name], db_link(hazard.name, hazard.card_id))
 
       span([class: :aspects], [
         " (",
