@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Cult.Expeditions do
   use Mix.Task
+  import Cultulator.Mix
 
   defmodule Generator do
     use Eml.HTML
@@ -15,12 +16,19 @@ defmodule Mix.Tasks.Cult.Expeditions do
       html do
         head do
           title("Cultist Simulator Expeditions Reference Table")
+          link(rel: :stylesheet, type: "text/css", href: "css/main.css")
           link(rel: :stylesheet, type: "text/css", href: "css/expeditions.css")
         end
 
-        body do
-          vault_table()
+        Cultulator.Html.layout do
+          [page_header(), vault_table()]
         end
+      end
+    end
+
+    defp page_header do
+      div id: :container do
+        h1("Expedition Locations")
       end
     end
 
@@ -36,53 +44,9 @@ defmodule Mix.Tasks.Cult.Expeditions do
     Mix.raise("cult.expeditions does not accept arguments")
   end
 
-  defp build_path(path) do
-    Path.join([Mix.Project.build_path(), "pages", path])
-  end
-
-  defp relative(path) do
-    Path.relative_to_cwd(path)
-  end
-
   defp generate_page do
+    Mix.Task.run("cult.css")
     copy_static("static/css/expeditions.css", build_path("css/expeditions.css"))
     write_file(build_path("expeditions.html"), Generator.html_page())
-  end
-
-  defp write_file(target, contents) do
-    rm!(target)
-    File.write!(target, contents)
-    IO.puts("* Wrote #{byte_size(contents)} bytes to #{relative(target)}")
-  end
-
-  defp copy_static(source, target) do
-    Path.dirname(target) |> File.mkdir_p!()
-    src_stat = File.stat!(source)
-
-    case File.stat(target) do
-      {:error, :enoent} ->
-        rm!(target)
-        File.copy!(source, target)
-        IO.puts("* Copied: #{source} -> #{relative(target)}")
-
-      {:ok, ^src_stat} ->
-        IO.puts("* Keeping link: #{source} -> #{relative(target)}")
-
-      {:ok, %File.Stat{type: :regular}} ->
-        rm!(target)
-        File.copy!(source, target)
-        IO.puts("* Copied: #{source} -> #{relative(target)}")
-
-      {:ok, _} ->
-        raise "Target #{relative(target)} is not a file or a link to #{source}"
-    end
-  end
-
-  defp rm!(file) do
-    case File.rm(file) do
-      :ok -> :ok
-      {:error, :enoent} -> :ok
-      {:error, err} -> raise "Failed to delete #{file}: #{inspect(err)}"
-    end
   end
 end

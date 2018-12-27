@@ -18,7 +18,7 @@ notifications:
     on_success: change
     rooms:
       - secure: Wftn34N8fyrD/WbzOyHSPtnek2d61+iEn5wCVPEwa3DvR3kFt3jwgtlysUIzmSnWNYyt27ylOSxmCa4j8y3xICNj92XtiOfFadoRVONG+k9W7IKG2hRO+1KIKVJjBhhIHgEdkfPJkV83LzMaUIUzok03GwzSfi2tIn02aBZVYfLa9sENsjhv3uaFtgpi1QmmZOu2fxXEsAYC4M69xL9vyAhIXmYVXlo1U+um6c8g40Z1JJfxLWuAEO/ZHk5xl9kmeo9VabuoES4N8CRLBX96oeAH8FHG3WCwqvoxD9VKlNMhXE0G0l0QDukZrx3RR2KueZYeuwtJajCGOBZylybfXuto8qSnyrgpBaf1M37K+HXnZCk/ghIsQy/teXdCdUBUm2ViIBzHB+lvN5oaXLx+mYYnOcU6aSakcs9WZSO/MdsyEbvK5lbAJK11K+Ed5OyzhPmybNkZCVGFUjnEcEvwXX+B4uuXKeYzYn0bvQ+ZPgsFj5FhcCBN3z3Hjorb1pPwxRNo+fIQXHw58idFtSicf7B9Z3putodAKrB+rHUEDIEFQw1VSLlPopsiofcVv6u6gVijkIvdPoRTPEydQuknEVD7zY+Vy9zaWXVgcv9OQsH4/V0RIoIL7VFLu4Er1Xj7gNdG6pQV60KPt77+QmYZPfGiJImhrl7C20CaGdSwQC8=
-before_deploy: "MIX_ENV=prod mix cult.expeditions"
+before_deploy: "MIX_ENV=prod mix cult"
 deploy:
   provider: s3
   access_key_id: AKIAJX73U5SBXBWI4HDA
